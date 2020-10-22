@@ -23,6 +23,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/themes', [App\Http\Controllers\ThemeController::class, 'index'])->name('themes');
 Route::get('/themes/create', [App\Http\Controllers\ThemeController::class, 'create'])->name('themes.create');
+Route::post('/themes/store', [App\Http\Controllers\ThemeController::class, 'store'])->name('themes.store');
+Route::get('/themes/show/{id}', [App\Http\Controllers\ThemeController::class, 'show'])->name('themes.show');
+Route::get('/themes/edit/{id}', [App\Http\Controllers\ThemeController::class, 'edit'])->name('themes.edit');
+Route::post('/themes/update/{id}', [App\Http\Controllers\ThemeController::class, 'update'])->name('themes.update');
+Route::delete('/themes/destroy/{id}', [App\Http\Controllers\ThemeController::class, 'destroy'])->name('themes.destroy');
 
 Route::get('/invitations', [App\Http\Controllers\InvitationController::class, 'index'])->name('invitations');
 Route::get('/invitations/create', [App\Http\Controllers\InvitationController::class, 'create'])->name('invitations.create');
+Route::post('/invitations/store', [App\Http\Controllers\InvitationController::class, 'store'])->name('invitations.store');
+Route::get('/invitations/show/{id}', [App\Http\Controllers\InvitationController::class, 'show'])->name('invitations.show');
+Route::get('/invitations/edit/{id}', [App\Http\Controllers\InvitationController::class, 'edit'])->name('invitations.edit');
+Route::post('/invitations/update/{id}', [App\Http\Controllers\InvitationController::class, 'update'])->name('invitations.update');
+Route::delete('/invitations/destroy/{id}', [App\Http\Controllers\InvitationController::class, 'destroy'])->name('invitations.destroy');

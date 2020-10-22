@@ -19,6 +19,7 @@ class CreateGroomsTable extends Migration
             $table->string('name', 255);
             $table->string('father_name', 255);
             $table->string('mother_name', 255);
+            $table->string('photo', 255);
             $table->timestamps();
         });
     }

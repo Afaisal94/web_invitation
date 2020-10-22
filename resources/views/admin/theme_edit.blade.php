@@ -9,15 +9,15 @@
 
                     <div class="card-body">
 
-                    <form method="post" action="{{ url('/themes/store') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ url('/themes/update',$themes->id) }}" enctype="multipart/form-data">
                     @csrf
                         <div class="form-group">
                             <label>Theme Name</label>
-                            <input type="text" class="form-control" name="theme_name">
+                            <input type="text" class="form-control" name="theme_name" value="{{ $themes->theme_name }}">
                         </div>
                         <div class="form-group">
                             <label>View Name</label>
-                            <input type="text" class="form-control" name="view_name">
+                            <input type="text" class="form-control" name="view_name" value="{{ $themes->view_name }}">
                         </div>
                         <div class="form-group">
                             <label>Thumbnail Theme</label>

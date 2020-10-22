@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class invitation extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['wedding_date', 'wedding_time', 'location', 'gmap_code', 'slug'];
 }

@@ -28,30 +28,81 @@ class ThemeController extends Controller
     
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'theme_name'    => 'required',
+            'view_name'     => 'required',
+        ]);
+
+        $file           = $request->file('thumbnail');
+        $tujuan_upload  = 'theme_img';
+        $file->move($tujuan_upload, $file->getClientOriginalName());
+
+        $theme = new Theme;
+            $theme->theme_name  = $request->theme_name;
+            $theme->view_name   = $request->view_name;
+            $theme->thumbnail   = $file->getClientOriginalName();
+        $theme->save();
+
+        return redirect()->route('themes')
+                        ->with('success','Created successfully.');
     }
 
     
     public function show($id)
     {
-        //
+        $themes = Theme::find($id);
+    	return view('admin.theme_show',['themes' => $themes]);
     }
 
     
     public function edit($id)
     {
-        //
+        $themes = Theme::find($id);
+    	return view('admin.theme_edit',['themes' => $themes]);
     }
 
     
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'theme_name'    => 'required',
+            'view_name'     => 'required',
+        ]);
+
+        $file           = $request->file('thumbnail');
+        $tujuan_upload  = 'theme_img';
+        
+        if(!empty($file)){
+
+            $file->move($tujuan_upload, $file->getClientOriginalName());
+
+            $theme = Theme::find($id);
+                $theme->theme_name  = $request->theme_name;
+                $theme->view_name   = $request->view_name;
+                $theme->thumbnail   = $file->getClientOriginalName();
+            $theme->save();
+
+        }else{
+
+            $theme = Theme::find($id);
+                $theme->theme_name  = $request->theme_name;
+                $theme->view_name   = $request->view_name;
+            $theme->save();
+
+        }
+
+        return redirect()->route('themes')
+                        ->with('success','Updated successfully.');
+        
     }
 
     
     public function destroy($id)
     {
-        //
+        $theme = Theme::find($id);
+        $theme->delete();
+
+        return redirect()->route('themes')
+                        ->with('success','Deleted successfully.');
     }
 }

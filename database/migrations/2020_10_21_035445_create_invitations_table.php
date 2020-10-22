@@ -15,11 +15,12 @@ class CreateInvitationsTable extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('theme_id');
             $table->date('wedding_date');
             $table->string('wedding_time');
             $table->text('location');
             $table->text('gmap_code');
-            $table->string('slug', 255);
+            $table->string('slug', 255);            
             $table->timestamps();
         });
     }
