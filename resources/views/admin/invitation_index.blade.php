@@ -27,9 +27,17 @@
                                 <td>{{ $a->created_at }}</td>
                                 <td>{{ $a->slug }}</td>
                                 <td>
-                                    <a class="btn btn-primary" href="">Preview</a>
-                                    <a class="btn btn-info" href="">Edit</a>
-                                    <a class="btn btn-danger" href="">Delete</a>
+                                <form action="{{ route('invitations.destroy',$a->id) }}" method="POST">
+    
+                                <a class="btn btn-success" href="{{ route('invitations.show',$a->id) }}">Preview</a>
+
+                                <a class="btn btn-primary" href="{{ route('invitations.edit',$a->id) }}">Edit</a>
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                                 </td>
                             </tr>
                             @endforeach

@@ -95,13 +95,16 @@ class InvitationController extends Controller
     
     public function show($id)
     {
-        //
+        return view('themes.first');
     }
 
     
     public function edit($id)
     {
-        //
+        $invitation = Invitation::find($id);
+        $theme_id   = Invitation::where('id', $id)->first()->theme_id;
+        $themes     = Theme::where('theme_id', '!=', $theme_id);
+        return view('admin.invitation_edit', ['themes' => $themes, 'invitation' => $invitation]);
     }
 
     
@@ -113,6 +116,10 @@ class InvitationController extends Controller
     
     public function destroy($id)
     {
-        //
+        $invitation = Invitation::find($id);
+        $invitation->delete();
+
+        return redirect()->route('invitations')
+                        ->with('success','Deleted successfully.');
     }
 }

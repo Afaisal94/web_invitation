@@ -50,8 +50,7 @@ class ThemeController extends Controller
     
     public function show($id)
     {
-        $themes = Theme::find($id);
-    	return view('admin.theme_show',['themes' => $themes]);
+        echo"Show";
     }
 
     
