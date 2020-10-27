@@ -17,7 +17,6 @@ class CreateGuestBooksTable extends Migration
             $table->id();
             $table->foreignId('invitation_id');
             $table->string('name', 255);
-            $table->string('email', 255);
             $table->text('message');
             $table->timestamps();
         });

@@ -120,7 +120,7 @@ button:hover {
                         </div> 
                         <div class="form-group">
                         <label>Wedding Time:</label>
-                        <input type="text" class="form-control" name="wedding_time" placeholder="Ex: 10.00 - 15.00">
+                        <input type="text" class="form-control" name="wedding_time" placeholder="Ex: 10.00 WIB">
                         </div>
                         <div class="form-group">
                         <label>Location:</label>
@@ -139,6 +139,10 @@ button:hover {
                         <div class="form-group">
                         <label>Name:</label>
                         <input type="text" class="form-control" name="name_groom">
+                        </div>
+                        <div class="form-group">
+                        <label>Nickname:</label>
+                        <input type="text" class="form-control" name="nickname_groom">
                         </div> 
                         <div class="form-group">
                         <label>Father Name:</label>
@@ -157,6 +161,10 @@ button:hover {
                         <div class="form-group">
                         <label>Name:</label>
                         <input type="text" class="form-control" name="name_bridge">
+                        </div>
+                        <div class="form-group">
+                        <label>Nickname:</label>
+                        <input type="text" class="form-control" name="nickname_bridge">
                         </div> 
                         <div class="form-group">
                         <label>Father Name:</label>

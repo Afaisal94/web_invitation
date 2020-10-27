@@ -17,6 +17,7 @@ class CreateGroomsTable extends Migration
             $table->id();
             $table->foreignId('invitation_id');
             $table->string('name', 255);
+            $table->string('nickname', 255);
             $table->string('father_name', 255);
             $table->string('mother_name', 255);
             $table->string('photo', 255);

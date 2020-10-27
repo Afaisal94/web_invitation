@@ -109,7 +109,7 @@ button:hover {
                         <div class="form-group">
                         <label>Select Theme:</label>
                         <select name="theme_id" class="form-control">
-                            <option value="{{ $invitation->theme_id }}"> theme name </option>
+                            <option value="{{ $theme_id }}"> {{ $theme_name }} </option>
                         @foreach ($themes as $theme)
                             <option value="{{ $theme->id }}">{{ $theme->theme_name }}</option>
                         @endforeach
@@ -117,75 +117,72 @@ button:hover {
                         </div>  
                         <div class="form-group">
                         <label>Wedding Date:</label>
-                        <input type="date" class="form-control" name="wedding_date">
+                        <input type="date" class="form-control" name="wedding_date" value="{{ $invitation->wedding_date }}">
                         </div> 
                         <div class="form-group">
                         <label>Wedding Time:</label>
-                        <input type="text" class="form-control" name="wedding_time" placeholder="Ex: 10.00 - 15.00">
+                        <input type="text" class="form-control" name="wedding_time" placeholder="Ex: 10.00 WIB" value="{{ $invitation->wedding_time }}">
                         </div>
                         <div class="form-group">
                         <label>Location:</label>
-                        <textarea class="form-control" name="location"></textarea>
+                        <textarea class="form-control" name="location"> {{ $invitation->location }} </textarea>
                         </div> 
                         <div class="form-group">
                         <label>Google Map Embed:</label>
-                        <textarea class="form-control" name="gmap_code"></textarea>
+                        <textarea class="form-control" name="gmap_code"> {{ $invitation->gmap_code }} </textarea>
                         </div> 
                         <div class="form-group">
                         <label>Slug:</label>
-                        <input type="text" class="form-control" name="slug" placeholder="Ex: anna&james">
+                        <input type="text" class="form-control" name="slug" placeholder="Ex: anna&james" value="{{ $invitation->slug }}" readonly>
                         </div>                       
                     </div>
                     <div class="tab"><h2 style="">Data Groom:</h2><br>
                         <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="name_groom">
+                        <input type="text" class="form-control" name="name_groom" value="{{ $groom->name }}">
+                        </div> 
+                        <div class="form-group">
+                        <label>Nickname:</label>
+                        <input type="text" class="form-control" name="nickname_groom" value="{{ $groom->nickname }}">
                         </div> 
                         <div class="form-group">
                         <label>Father Name:</label>
-                        <input type="text" class="form-control" name="father_groom">
+                        <input type="text" class="form-control" name="father_groom" value="{{ $groom->father_name }}">
                         </div>
                         <div class="form-group">
                         <label>Mother Name:</label>
-                        <input type="text" class="form-control" name="mother_groom">
+                        <input type="text" class="form-control" name="mother_groom" value="{{ $groom->mother_name }}">
                         </div>
                         <div class="form-group">
                         <label>Groom's Photo:</label>
-                        <input type="file" class="form-control" name="photo_groom">
+                        <br><img style="width:100px" class="img-fluid" src="{{ url('/wedding_photo/'.$groom->photo) }}"><br>
+                        <input type="file" class="form-control" name="photo_groom" value="{{ $groom->photo }}">
                         </div>                      
                     </div>
                     <div class="tab"><h2 style="">Data Bridge:</h2><br>
                         <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="name_bridge">
+                        <input type="text" class="form-control" name="name_bridge" value="{{ $bridge->name }}">
+                        </div> 
+                        <div class="form-group">
+                        <label>Nickname:</label>
+                        <input type="text" class="form-control" name="nickname_bridge" value="{{ $bridge->nickname }}">
                         </div> 
                         <div class="form-group">
                         <label>Father Name:</label>
-                        <input type="text" class="form-control" name="father_bridge">
+                        <input type="text" class="form-control" name="father_bridge" value="{{ $bridge->father_name }}">
                         </div>
                         <div class="form-group">
                         <label>Mother Name:</label>
-                        <input type="text" class="form-control" name="mother_bridge">
+                        <input type="text" class="form-control" name="mother_bridge" value="{{ $bridge->mother_name }}">
                         </div>
                         <div class="form-group">
                         <label>Bridge's Photo:</label>
+                        <br><img style="width:100px" class="img-fluid" src="{{ url('/wedding_photo/'.$bridge->photo) }}"><br>
                         <input type="file" class="form-control" name="photo_bridge">
                         </div>                      
                     </div>
-                    <div class="tab"><h2 style="">Photo Galleries:</h2><br>
-                        <div class="form-group">
-                        <label>Photo 1:</label>
-                        <input type="file" class="form-control" name="gallery_1">
-                        </div> 
-                        <div class="form-group">
-                        <label>Photo 2:</label>
-                        <input type="file" class="form-control" name="gallery_2">
-                        </div> 
-                        <div class="form-group">
-                        <label>Photo 3:</label>
-                        <input type="file" class="form-control" name="gallery_3">
-                        </div>                      
-                    </div>
+                    
                     <div style="overflow:auto;">
                         <div style="float:right;">
                         <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
@@ -217,7 +214,7 @@ button:hover {
                         document.getElementById("prevBtn").style.display = "inline";
                     }
                     if (n == (x.length - 1)) {
-                        document.getElementById("nextBtn").innerHTML = "Submit";
+                        document.getElementById("nextBtn").innerHTML = "Update";
                     } else {
                         document.getElementById("nextBtn").innerHTML = "Next";
                     }
@@ -250,15 +247,7 @@ button:hover {
                     x = document.getElementsByClassName("tab");
                     y = x[currentTab].getElementsByTagName("input");
                     // A loop that checks every input field in the current tab:
-                    for (i = 0; i < y.length; i++) {
-                        // If a field is empty...
-                        if (y[i].value == "") {
-                        // add an "invalid" class to the field:
-                        y[i].className += " invalid";
-                        // and set the current valid status to false
-                        valid = false;
-                        }
-                    }
+                    
                     // If the valid status is true, mark the step as finished and valid:
                     if (valid) {
                         document.getElementsByClassName("step")[currentTab].className += " finish";

@@ -9,6 +9,12 @@
 
                     <div class="card-body">
 
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
+
                     <a class="btn btn-primary" href="{{ url('/invitations/create') }}" style="margin-bottom:10px">New Invitation</a>
 
                     <table class="table table-bordered table-striped">

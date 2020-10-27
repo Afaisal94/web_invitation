@@ -8,6 +8,7 @@ use App\Models\Bridge;
 use App\Models\Gallery;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvitationController extends Controller
 {
@@ -67,6 +68,7 @@ class InvitationController extends Controller
         $groom = new Groom;
             $groom->invitation_id       = $invitation_id;
             $groom->name                = $request->name_groom;
+            $groom->nickname            = $request->nickname_groom;
             $groom->father_name         = $request->father_groom;
             $groom->mother_name         = $request->mother_groom;
             $groom->photo               = $photo_groom->getClientOriginalName();
@@ -75,6 +77,7 @@ class InvitationController extends Controller
         $bridge = new Bridge;
             $bridge->invitation_id       = $invitation_id;
             $bridge->name                = $request->name_bridge;
+            $bridge->nickname            = $request->nickname_bridge;
             $bridge->father_name         = $request->father_bridge;
             $bridge->mother_name         = $request->mother_bridge;
             $bridge->photo               = $photo_bridge->getClientOriginalName();
@@ -95,16 +98,43 @@ class InvitationController extends Controller
     
     public function show($id)
     {
-        return view('themes.first');
+        $invitation = Invitation::find($id);    
+        $theme_id   = Invitation::where('id', $id)->first()->theme_id;    
+        $view_name  = Theme::where('id', $theme_id)->first()->view_name;
+        $view       = 'themes.'.$view_name;
+        $groom      = Groom::where('invitation_id', $id)->first();
+        $bridge     = Bridge::where('invitation_id', $id)->first();
+        $gallery    = Gallery::where('invitation_id', $id)->get();
+        return view($view, [
+            'invitation'    => $invitation, 
+            'groom'         => $groom, 
+            'bridge'        => $bridge, 
+            'galleries'     => $gallery, 
+            'invitation'    => $invitation, 
+            ]);
+    
     }
 
     
     public function edit($id)
     {
-        $invitation = Invitation::find($id);
+        $invitation = Invitation::find($id);        
         $theme_id   = Invitation::where('id', $id)->first()->theme_id;
-        $themes     = Theme::where('theme_id', '!=', $theme_id);
-        return view('admin.invitation_edit', ['themes' => $themes, 'invitation' => $invitation]);
+        $groom      = Groom::where('invitation_id', $id)->first();
+        $bridge     = Bridge::where('invitation_id', $id)->first();
+        $gallery    = Gallery::where('invitation_id', $id)->first();
+        $theme_name = Theme::where('id', $theme_id)->first()->theme_name;
+        $themes     = DB::table('Themes')->where('id', '!=', $theme_id)->get();
+        return view('admin.invitation_edit', [
+            'themes'        => $themes, 
+            'invitation'    => $invitation, 
+            'groom'         => $groom, 
+            'bridge'        => $bridge, 
+            'gallery'       => $gallery, 
+            'invitation'    => $invitation, 
+            'theme_id'      => $theme_id,
+            'theme_name'    => $theme_name,
+            ]);
     }
 
     
