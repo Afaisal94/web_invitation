@@ -30,19 +30,21 @@
                             @foreach($invitations as $a)
                             <tr>
                                 <td>#</td>
-                                <td>{{ $a->created_at }}</td>
+                                <td>{{ date('d-m-Y', strtotime($a->created_at)) }}</td>
                                 <td>{{ $a->slug }}</td>
                                 <td>
                                 <form action="{{ route('invitations.destroy',$a->id) }}" method="POST">
     
-                                <a class="btn btn-success" href="{{ route('invitations.show',$a->id) }}">Preview</a>
+                                <a target="_blank" class="btn btn-sm btn-success" href="{{ route('invitation',$a->slug) }}">View</a>
 
-                                <a class="btn btn-primary" href="{{ route('invitations.edit',$a->id) }}">Edit</a>
+                                <a class="btn btn-sm btn-info" href="{{ route('galleries',$a->id) }}">Gallery</a>
+
+                                <a class="btn btn-sm btn-primary" href="{{ route('invitations.edit',$a->id) }}">Edit</a>
 
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                 </form>
                                 </td>
                             </tr>

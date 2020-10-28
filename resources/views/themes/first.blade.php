@@ -36,6 +36,12 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
+<style>
+.timer{
+  display:inline-block;
+  padding:10px;
+}
+</style>
 
 <style type="text/css">
 body { background-color: #ffffff; } svg { width: 1em; height: 1em; fill: currentColor; display: inline-block; vertical-align: middle; margin-top: -2px; } 
@@ -2669,18 +2675,20 @@ h1, .h1 {
 	<div class="wpkoi-elements-countdown-wrapper">
 		<div class="wpkoi-elements-countdown-container wpkoi-elements-countdown-label-block ">		
 			<ul id="wpkoi-elements-countdown-74b7cade" class="wpkoi-elements-countdown-items" data-date="Dec 12 2022 0:00:00">
-			    <li class="wpkoi-elements-countdown-item"><div class="wpkoi-elements-countdown-days"><span data-days="" class="wpkoi-elements-countdown-digits">775</span><span class="wpkoi-elements-countdown-label">Hari</span></div></li>			    <li class="wpkoi-elements-countdown-item"><div class="wpkoi-elements-countdown-hours"><span data-hours="" class="wpkoi-elements-countdown-digits">14</span><span class="wpkoi-elements-countdown-label">Jam</span></div></li>			   <li class="wpkoi-elements-countdown-item"><div class="wpkoi-elements-countdown-minutes"><span data-minutes="" class="wpkoi-elements-countdown-digits">33</span><span class="wpkoi-elements-countdown-label">Menit</span></div></li>			   <li class="wpkoi-elements-countdown-item"><div class="wpkoi-elements-countdown-seconds"><span data-seconds="" class="wpkoi-elements-countdown-digits">5</span><span class="wpkoi-elements-countdown-label">Detik</span></div></li>			</ul>
+			    <li class="wpkoi-elements-countdown-item">
+                    <div class="wpkoi-elements-countdown-days"><span data-days="" class="wpkoi-elements-countdown-digits">
+                        <div align="center" id="timer"></div>
+                    </span><span class="wpkoi-elements-countdown-label"></span>
+                    </div>
+                </li>		
+            </ul>
+
 			<div class="clearfix"></div>
 		</div>
 	</div>
 
 
-	<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		'use strict';
-		$("#wpkoi-elements-countdown-74b7cade").countdown();
-	});
-	</script>
+	
 	
 			</div>
 				</div>
@@ -2855,7 +2863,7 @@ h1, .h1 {
 						<div class="elementor-element elementor-element-7c578106 elementor-widget elementor-widget-google_maps animated fadeInUp" data-id="7c578106" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:200}" data-widget_type="google_maps.default">
 				<div class="elementor-widget-container">
             <div class="elementor-custom-embed">
-            <iframe src="{{ $invitation->gmap_code }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            {!! $invitation->gmap_code !!}
         </div>		</div>
 				</div>
 				<div class="elementor-element elementor-element-27205430 elementor-widget-divider--separator-type-pattern elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="27205430" data-element_type="widget" data-widget_type="divider.default">
@@ -2883,7 +2891,7 @@ h1, .h1 {
 		
 		<div class="guestbook-box-content elementor-comment-box-wrapper" data-id="guestbox">		
 			<div class="comment-form-container">
-				<form id="post-guestbook-box">
+				<form id="post-guestbook-box" method="post" action="#">
 					<div class="guestbook-label">
                         <label class="elementor-screen-only">
                             Name					
@@ -2988,3 +2996,40 @@ var cevar = {"ajax_url":"https:\/\/garudanesia.com\/wp-admin\/admin-ajax.php","p
 
 
 <!-- Page supported by LiteSpeed Cache 3.5.0.2 on 2020-10-27 10:14:03 --><span id="elementor-device-mode" class="elementor-screen-only"></span></body></html>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("{{ date('m d, Y', strtotime($invitation->wedding_date)) }} 00:00:00").getTime(); 
+
+function timePart(val,text,color="black"){
+  return `<h1 class="timer" style="color:${color};">${val}<div>${text}</div></h1>`
+}
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+ var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+ // Display the result in the element with id="demo"
+
+ let res = timePart(days,'Days') + timePart(hours,'Hours') + timePart(minutes,'Mins')  + timePart(seconds,'Seconds','red');
+document.getElementById("timer").innerHTML = res
+
+  // If the count down is finished, write some text 
+ if (distance < 0) {
+    clearInterval(x);
+
+document.getElementById("timer").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>

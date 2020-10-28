@@ -96,8 +96,9 @@ class InvitationController extends Controller
     }
 
     
-    public function show($id)
+    public function show($slug)
     {
+        $id         = Invitation::where('slug', $slug)->first()->id;
         $invitation = Invitation::find($id);    
         $theme_id   = Invitation::where('id', $id)->first()->theme_id;    
         $view_name  = Theme::where('id', $theme_id)->first()->view_name;
@@ -131,7 +132,6 @@ class InvitationController extends Controller
             'groom'         => $groom, 
             'bridge'        => $bridge, 
             'gallery'       => $gallery, 
-            'invitation'    => $invitation, 
             'theme_id'      => $theme_id,
             'theme_name'    => $theme_name,
             ]);
