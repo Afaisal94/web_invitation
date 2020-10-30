@@ -2,15 +2,12 @@
 <!-- saved from url=(0031)https://garudanesia.com/wdp-01/ -->
 <html lang="en-US" class="no-touchevents flexbox no-touch"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-		<title>Web Invitation - Theme 1</title>
+		<title>{{ $invitation->slug }}</title>
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="GarudaNesia">
-<meta property="og:url" content="https://garudanesia.com/wdp-01/">
-<meta property="og:image" content="https://garudanesia.com/wp-content/uploads/2020/09/PRIVIEW_WEDTS_01-1.png">
-<link rel="alternate" type="application/rss+xml" title="GarudaNesia » Feed" href="https://garudanesia.com/feed/">
-<link rel="alternate" type="application/rss+xml" title="GarudaNesia » Comments Feed" href="https://garudanesia.com/comments/feed/">
-<link rel="alternate" type="application/rss+xml" title="GarudaNesia » Demo Weddingpres 01 Comments Feed" href="https://garudanesia.com/wdp-01/feed/">
+<meta property="og:site_name" content="Invitation">
+<meta property="og:url" content="{{ url('/invitation') }}/{!! $invitation->slug !!}">
+<meta property="og:image" content="">
 <link rel="stylesheet" id="wp-block-library-css" href="{{ url('/template/theme_1') }}/style.min.css" type="text/css" media="all">
 <link rel="stylesheet" id="wdp-centered-css-css" href="{{ url('/template/theme_1') }}/wdp-centered-timeline.min.css" type="text/css" media="all">
 <link rel="stylesheet" id="wdp-horizontal-css-css" href="{{ url('/template/theme_1') }}/wdp-horizontal-styles.min.css" type="text/css" media="all">
@@ -2495,7 +2492,14 @@ h1, .h1 {
     }
 }</style><style type="text/css">/* This is not a zero-length file! */</style></head>
 <body class="post-template post-template-elementor_canvas single single-post postid-86 single-format-standard custom-background page-landingpress-full-hf header-active header-menu-active header-menu-after footer-active elementor-default elementor-template-canvas elementor-kit-10 elementor-page elementor-page-86" data-elementor-device-mode="desktop">
-			<div data-elementor-type="wp-post" data-elementor-id="86" class="elementor elementor-86" data-elementor-settings="[]">
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success" style="background:white; color:black">
+            <center>{{ $message }}</center>
+        </div>
+    @endif
+
+    <div data-elementor-type="wp-post" data-elementor-id="86" class="elementor elementor-86" data-elementor-settings="[]">
 						<div class="elementor-inner">
 							<div class="elementor-section-wrap">
 							<section class="elementor-section elementor-top-section elementor-element elementor-element-540e6171 elementor-section-height-full elementor-section-boxed elementor-section-height-default elementor-section-items-middle" data-id="540e6171" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -2891,20 +2895,22 @@ h1, .h1 {
 		
 		<div class="guestbook-box-content elementor-comment-box-wrapper" data-id="guestbox">		
 			<div class="comment-form-container">
-				<form id="post-guestbook-box" method="post" action="#">
+                <form id="post-guestbook-box" method="post" action="{{ url('/home/guestbook') }}">
+                @csrf
+                    <input type="hidden" name="invitation_id" value="{{ $invitation->id }}">
 					<div class="guestbook-label">
                         <label class="elementor-screen-only">
                             Name					
                         </label>
                     </div>
-                    <input class="form-control" type="text" name="name" placeholder="Your Name" required="">
+                    <input class="form-control" type="text" name="name" placeholder="Your Name" required>
                     				
 					<div class="guestbook-label">
                         <label class="elementor-screen-only">
                             Message					
                         </label>
                     </div>
-					<textarea class="form-control" rows="3" name="guestbook-message" placeholder="Your Message" required=""></textarea>
+					<textarea class="form-control" rows="3" name="message" placeholder="Your Message" required></textarea>
 					<div class="elementor-button-wrapper">
 						<button type="submit" class="elementor-button-link elementor-button elementor-size-sm">
                             Send						

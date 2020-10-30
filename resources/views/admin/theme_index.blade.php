@@ -20,6 +20,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Theme Name</th>
                                 <th>View Name</th>
                                 <th>Thumbnail</th>
@@ -27,17 +28,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($themes as $a)
+                            @foreach($themes as $theme)
                             <tr>
-                                <td>{{ $a->theme_name }}</td>
-                                <td>{{ $a->view_name }}</td>
-                                <td><img style="width:100px" class="img-fluid" src="{{ url('/theme_img/'.$a->thumbnail) }}"></td>
+                                <td scope="row">{{ ++$i }}</td>
+                                <td>{{ $theme->theme_name }}</td>
+                                <td>{{ $theme->view_name }}</td>
+                                <td><img style="width:100px" class="img-fluid" src="{{ url('/theme_img/'.$theme->thumbnail) }}"></td>
                                 <td>
-                                    <form action="{{ route('themes.destroy',$a->id) }}" method="POST">
+                                    <form action="{{ route('themes.destroy',$theme->id) }}" method="POST">
     
-                                    <a class="btn btn-success" href="{{ route('themes.show',$a->id) }}">Show</a>
+                                    <a class="btn btn-success" href="{{ route('themes.show',$theme->id) }}">Show</a>
 
-                                    <a class="btn btn-primary" href="{{ route('themes.edit',$a->id) }}">Edit</a>
+                                    <a class="btn btn-primary" href="{{ route('themes.edit',$theme->id) }}">Edit</a>
 
                                     @csrf
                                     @method('DELETE')
@@ -49,6 +51,11 @@
                             @endforeach
                         </tbody>                        
                     </table>
+
+                    {{-- Pagination --}}
+                    <div class="d-flex justify-content-center">
+                       {!! $themes->links() !!}
+                    </div>
 
                     </div>
             </div>

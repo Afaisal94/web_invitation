@@ -9,9 +9,9 @@
 
                     <div class="card-body">                    
                     
-                    <p>{{ $themes->theme_name }}</p>
-                    <p>{{ $themes->view_name }}</p>
-                    <img style="width:200px" class="img-fluid" src="{{ url('/theme_img/'.$themes->thumbnail) }}">
+                    <p>Theme name : {{ $themes->theme_name }}</p>
+                    <p>View name : {{ $themes->view_name }}</p>
+                    <img class="img-fluid" src="{{ url('/theme_img/'.$themes->thumbnail) }}">
                   
                     </div>
             </div>

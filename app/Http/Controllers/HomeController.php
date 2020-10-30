@@ -8,6 +8,7 @@ use App\Models\Groom;
 use App\Models\Bridge;
 use App\Models\Gallery;
 use App\Models\Invitation;
+use App\Models\Guest_book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,12 +17,13 @@ class HomeController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     
     public function index()
     {
+        $this->middleware('auth');
         return view('home');
     }
 
@@ -42,6 +44,21 @@ class HomeController extends Controller
             'galleries'     => $gallery, 
             'invitation'    => $invitation, 
             ]);
+    
+    }
+
+    public function guestbook(Request $request)
+    {
+        $id     =  $request->invitation_id;
+        $slug   = Invitation::where('id', $id)->first()->slug; 
+        $gb     = new Guest_book;
+            $gb->invitation_id  = $id;
+            $gb->name           = $request->name;
+            $gb->message        = $request->message;
+        $gb->save();
+
+        return redirect()->route('invitation', ['slug' => $slug])
+                        ->with('success','Thank you for the message you sent us!');
     
     }
 }

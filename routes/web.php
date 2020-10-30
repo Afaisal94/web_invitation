@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/invitation/{slug}', [App\Http\Controllers\HomeController::class, 'invitation'])->name('invitation');
+Route::post('/home/guestbook', [App\Http\Controllers\HomeController::class, 'guestbook'])->name('home.guestbook');
 
 Route::get('/galleries/{id}', [App\Http\Controllers\GalleryController::class, 'index'])->name('galleries');
 Route::get('/galleries/create/{id}', [App\Http\Controllers\GalleryController::class, 'create'])->name('galleries.create');

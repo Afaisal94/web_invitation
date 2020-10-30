@@ -20,8 +20,9 @@ class InvitationController extends Controller
     
     public function index()
     {
-        $invitations = Invitation::all();
-    	return view('admin.invitation_index',['invitations' => $invitations]);
+        $invitations = Invitation::latest()->simplepaginate(2);
+        return view('admin.invitation_index',['invitations' => $invitations])
+                ->with('i', (request()->input('page', 1) - 1) * 2);
     }
 
     
@@ -105,13 +106,13 @@ class InvitationController extends Controller
         $view       = 'themes.'.$view_name;
         $groom      = Groom::where('invitation_id', $id)->first();
         $bridge     = Bridge::where('invitation_id', $id)->first();
-        $gallery    = Gallery::where('invitation_id', $id)->get();
+        $galleries  = Gallery::where('invitation_id', $id)->get();
         return view($view, [
             'invitation'    => $invitation, 
             'groom'         => $groom, 
             'bridge'        => $bridge, 
-            'galleries'     => $gallery, 
-            'invitation'    => $invitation, 
+            'galleries'     => $galleries, 
+            'invitation'    => $invitation,              
             ]);
     
     }
@@ -140,7 +141,61 @@ class InvitationController extends Controller
     
     public function update(Request $request, $id)
     {
-        //
+        $tujuan_upload_1    = 'wedding_photo';
+        
+        $photo_groom        = $request->file('photo_groom');
+        $photo_bridge       = $request->file('photo_bridge');
+        
+        $photo_groom->move($tujuan_upload_1, $photo_groom->getClientOriginalName());
+        $photo_bridge->move($tujuan_upload_1, $photo_bridge->getClientOriginalName());
+
+        $groom_id       = Groom::where('invitation_id', $id)->first()->id;
+        $bridge_id      = Bridge::where('invitation_id', $id)->first()->id;
+
+        $invitation = Invitation::find($id);
+            $invitation->theme_id       = $request->theme_id;
+            $invitation->wedding_date   = $request->wedding_date;
+            $invitation->wedding_time   = $request->wedding_time;
+            $invitation->location       = $request->location;
+            $invitation->gmap_code      = $request->gmap_code;
+        $invitation->save();
+
+        if(!empty($photo_groom)){
+            $groom = Groom::find($groom_id);
+                $groom->name                = $request->name_groom;
+                $groom->nickname            = $request->nickname_groom;
+                $groom->father_name         = $request->father_groom;
+                $groom->mother_name         = $request->mother_groom;
+                $groom->photo               = $photo_groom->getClientOriginalName();
+            $groom->save();
+        }else{
+            $groom = Groom::find($groom_id);
+                $groom->name                = $request->name_groom;
+                $groom->nickname            = $request->nickname_groom;
+                $groom->father_name         = $request->father_groom;
+                $groom->mother_name         = $request->mother_groom;
+            $groom->save();
+        }
+
+        if(!empty($photo_bridge)){
+            $bridge = Bridge::find($bridge_id);
+                $bridge->name                = $request->name_bridge;
+                $bridge->nickname            = $request->nickname_bridge;
+                $bridge->father_name         = $request->father_bridge;
+                $bridge->mother_name         = $request->mother_bridge;
+                $bridge->photo               = $photo_bridge->getClientOriginalName();
+            $bridge->save();
+        }else{
+            $bridge = Bridge::find($bridge_id);
+                $bridge->name                = $request->name_bridge;
+                $bridge->nickname            = $request->nickname_bridge;
+                $bridge->father_name         = $request->father_bridge;
+                $bridge->mother_name         = $request->mother_bridge;
+            $bridge->save();
+        }
+
+        return redirect()->route('invitations')
+                        ->with('success','Updated successfully.');
     }
 
     

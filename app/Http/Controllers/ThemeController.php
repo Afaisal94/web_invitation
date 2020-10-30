@@ -15,8 +15,9 @@ class ThemeController extends Controller
     
     public function index()
     {
-        $themes = Theme::all();
-    	return view('admin.theme_index',['themes' => $themes]);
+        $themes = Theme::latest()->simplepaginate(2);
+        return view('admin.theme_index',['themes' => $themes])
+                ->with('i', (request()->input('page', 1) - 1) * 2);
     }
 
     
@@ -50,7 +51,8 @@ class ThemeController extends Controller
     
     public function show($id)
     {
-        echo"Show";
+        $themes = Theme::find($id);
+        return view('admin.theme_show',['themes' => $themes]);
     }
 
     
@@ -98,8 +100,15 @@ class ThemeController extends Controller
     
     public function destroy($id)
     {
+        $image = Theme::where('id', $id)->value('thumbnail');
+        $image_path = public_path('theme_img/'. $image);  
+        
         $theme = Theme::find($id);
         $theme->delete();
+        
+        if(file_exists($image_path)){
+            unlink($image_path);
+        }
 
         return redirect()->route('themes')
                         ->with('success','Deleted successfully.');

@@ -29,7 +29,7 @@
                         <tbody>
                             @foreach($invitations as $a)
                             <tr>
-                                <td>#</td>
+                                <td scope="row">{{ ++$i }}</td>
                                 <td>{{ date('d-m-Y', strtotime($a->created_at)) }}</td>
                                 <td>{{ $a->slug }}</td>
                                 <td>
@@ -51,6 +51,11 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    {{-- Pagination --}}
+                    <div class="d-flex justify-content-center">
+                        {!! $invitations->links() !!}
+                    </div>
 
                     </div>
             </div>
