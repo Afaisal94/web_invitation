@@ -20,9 +20,9 @@ class InvitationController extends Controller
     
     public function index()
     {
-        $invitations = Invitation::latest()->simplepaginate(2);
+        $invitations = Invitation::latest()->simplepaginate(5);
         return view('admin.invitation_index',['invitations' => $invitations])
-                ->with('i', (request()->input('page', 1) - 1) * 2);
+                ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     

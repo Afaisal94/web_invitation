@@ -15,9 +15,9 @@ class ThemeController extends Controller
     
     public function index()
     {
-        $themes = Theme::latest()->simplepaginate(2);
+        $themes = Theme::latest()->simplepaginate(5);
         return view('admin.theme_index',['themes' => $themes])
-                ->with('i', (request()->input('page', 1) - 1) * 2);
+                ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     
