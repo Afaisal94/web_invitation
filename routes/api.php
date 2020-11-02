@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/themes', [App\Http\Controllers\Api\ThemeController::class, 'index']);
+Route::get('/theme/{id}', [App\Http\Controllers\Api\ThemeController::class, 'show']);
+
+Route::get('/invitations', [App\Http\Controllers\Api\InvitationController::class, 'index']);
+Route::get('/invitation/{id}', [App\Http\Controllers\Api\InvitationController::class, 'show']);

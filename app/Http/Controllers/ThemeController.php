@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Theme;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ThemeController extends Controller
 {
@@ -19,6 +20,14 @@ class ThemeController extends Controller
         return view('admin.theme_index',['themes' => $themes])
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }
+
+    // public function data_api()
+    // {
+    //     $response = Http::get('http://127.0.0.1:8000/api/themes');
+    //     $data = $response->json();
+    //     dd($data);
+    //     return view('admin.themes_indexapi',compact('data'));
+    // }
 
     
     public function create()
@@ -113,4 +122,5 @@ class ThemeController extends Controller
         return redirect()->route('themes')
                         ->with('success','Deleted successfully.');
     }
+    
 }

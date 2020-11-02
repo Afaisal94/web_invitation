@@ -45,3 +45,5 @@ Route::get('/invitations/show/{slug}', [App\Http\Controllers\InvitationControlle
 Route::get('/invitations/edit/{id}', [App\Http\Controllers\InvitationController::class, 'edit'])->name('invitations.edit');
 Route::post('/invitations/update/{id}', [App\Http\Controllers\InvitationController::class, 'update'])->name('invitations.update');
 Route::delete('/invitations/destroy/{id}', [App\Http\Controllers\InvitationController::class, 'destroy'])->name('invitations.destroy');
+
+Route::get('/themes/data_api', [App\Http\Controllers\ThemeController::class, 'data_api'])->name('themes.data_api');

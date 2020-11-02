@@ -10,4 +10,9 @@ class invitation extends Model
     use HasFactory;
 
     protected $fillable = ['wedding_date', 'wedding_time', 'location', 'gmap_code', 'slug'];
+
+    public function theme()
+    {
+        return $this->hasOne('App\Models\Theme', 'theme_id');
+    }
 }
